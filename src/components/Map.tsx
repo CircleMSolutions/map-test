@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import map from "../assets/map.png";
 
 interface Props {}
@@ -44,38 +44,46 @@ function GetCoordinates(e: any)
 }
 
 const MapComp: React.FC<Props> = (props) => {
-  const [zoom, setZoom] = useState(true);
-
-  const zoomHandler = () => {
-    setZoom((prev) => !prev);
-  };
+  const imgRef = useRef<any>();
+  const [zoom, setZoom] = useState(false);
+  const [scroll, setScroll] = useState({x: 0, y: 0})
+  const [pins, setPins] = useState<{x:number, y: number}[]>([])
 
   const imageClickHandler = (e: any) => {
     const { x, y } = GetCoordinates(e)
-    const scale = e.target.width / e.target.naturalWidth
-    console.log((x * 1/(scale)).toFixed(0), (y * 1/(scale)).toFixed(0), zoom)
+    if (e.shiftKey) {
+      setPins((prev) => [...prev, {x: x / imgRef.current?.offsetWidth, y: y / imgRef.current?.offsetHeight}])
+    }
+    if (e.altKey) {
+      scroll.x === 0 ? setScroll({x: x , y: (e.clientY / 2) + y}) : setScroll({x: 0, y:0})
+      setZoom((prev) => !prev);
+    }
   }
 
   useEffect(() => {
-    const callback = (e: any) => {
-      if (e.key.toLowerCase() === 'z') {
-        setZoom((prev) => !prev)
-      }
-    }
-    document.addEventListener('keyup', callback)
-    return () => document.removeEventListener('keyup', callback)
+    console.log(imgRef.current?.offsetWidth, imgRef.current?.offsetHeight, imgRef.current?.offsetTop, imgRef.current?.offsetLeft)
+    console.log(pins[0]?.x * imgRef.current?.offsetWidth, pins[0]?.y * imgRef.current?.offsetHeight)
   })
 
+  useEffect(() => {
+    window.scroll(scroll.x, scroll.y)
+  }, [scroll])
+
   return (
-    <>
-      <button type="button" style={{position: 'fixed', top: '1rem', left: '1rem'}} onClick={zoomHandler}>ZOOM</button>
+    <div style={{position: 'relative', height: zoom ? 'auto' : '95vh'}}>
+      {pins.map(pin => {
+        const top = pin.y * imgRef.current?.offsetHeight
+        const left = pin.x * imgRef.current?.offsetWidth + imgRef.current?.offsetLeft
+        return <div key={Math.random()} style={{position: 'absolute', top, left, height: '10px', width: '10px', background: 'red'}}></div>
+})}
       <img
-        style={zoom ? {height: 'auto'} : {height: '95vh'}}
+        style={{maxHeight: '100%'}}
         onClick={imageClickHandler}
         src={map}
         alt=""
+        ref={imgRef}
       />
-    </>
+    </div>
   );
 };
 
