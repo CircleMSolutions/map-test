@@ -41,7 +41,7 @@ const MapComp: React.FC<Props> = (props) => {
   const { width, height, ref } = useResizeDetector();
   const [zoom, setZoom] = useState(false);
   const [scroll, setScroll] = useState({ x: 0, y: 0 });
-  const [pins, setPins] = useState<{ x: number; y: number }[]>([]);
+  const [pins, setPins] = useState<{ id: number, x: number; y: number }[]>([]);
 
   const imageClickHandler = (e: any) => {
     const { x, y } = GetCoordinates(e);
@@ -49,6 +49,7 @@ const MapComp: React.FC<Props> = (props) => {
       setPins((prev) => [
         ...prev,
         {
+          id: Math.random(),
           x: x / width!,
           y: y / height!,
         },
@@ -61,6 +62,13 @@ const MapComp: React.FC<Props> = (props) => {
       setZoom((prev) => !prev);
     }
   };
+
+  const clearPinHandler = (id: number, e: any) => {
+    if (e.metaKey) {
+    const tempPins = pins.filter(pin => pin.id !== id)
+    setPins(tempPins)
+    }
+  }
 
   useEffect(() => {
     window.scroll(scroll.x, scroll.y);
@@ -75,7 +83,8 @@ const MapComp: React.FC<Props> = (props) => {
         const left = pin.x * width! + ref.current?.offsetLeft;
         return (
           <div
-            key={Math.random()}
+            key={pin.id}
+            onClick={clearPinHandler.bind(null, pin.id)}
             style={{
               position: "absolute",
               top,
