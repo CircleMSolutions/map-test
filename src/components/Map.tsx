@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import map from "../assets/map.png";
 import { useResizeDetector } from 'react-resize-detector';
-import { isLabeledStatement } from "typescript";
 
 interface Props {}
 
