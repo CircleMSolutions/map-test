@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import map from "../assets/map.png";
 import { useResizeDetector } from 'react-resize-detector';
+import { isLabeledStatement } from "typescript";
 
 interface Props {}
 
@@ -42,6 +43,22 @@ const MapComp: React.FC<Props> = (props) => {
   const [zoom, setZoom] = useState(false);
   const [scroll, setScroll] = useState({ x: 0, y: 0 });
   const [pins, setPins] = useState<{ id: number, x: number; y: number }[]>([]);
+  const labels = [
+    {
+      id: Math.random(),
+      x: .4888103,
+      y: .3369245,
+      rotation: '-35deg',
+      text: "Indian Hill Rd"
+    },
+    {
+      id: Math.random(),
+      x: .54000,
+      y: .4980,
+      rotation: '0deg',
+      text: 'Highfield Dr'
+    }
+  ]
 
   const imageClickHandler = (e: any) => {
     const { x, y } = GetCoordinates(e);
@@ -81,6 +98,7 @@ const MapComp: React.FC<Props> = (props) => {
       {pins.map((pin) => {
         const top = pin.y * height!;
         const left = pin.x * width! + ref.current?.offsetLeft;
+        console.log(pin.x, pin.y)
         return (
           <div
             key={pin.id}
@@ -97,6 +115,22 @@ const MapComp: React.FC<Props> = (props) => {
             }}
           ></div>
         );
+      })}
+      {labels.map((label) => {
+        const top = label.y * height!;
+        const left = label.x * width! + ref.current?.offsetLeft;
+        return <div
+          key={label.id}
+          style={{
+            fontSize: '0.8rem',
+            fontWeight: 'bold',
+            fontFamily: 'sans-serif',
+            position: 'absolute',
+            top,
+            left,
+            transform: `translate(-50%, -50%) rotate(${label.rotation})`,
+          }}
+        >{label.text}</div>
       })}
       <img
         style={{ maxHeight: "100%" }}
