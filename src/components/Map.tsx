@@ -60,6 +60,23 @@ const MapComp: React.FC<Props> = (props) => {
     }
   ]
 
+  const blocks = [
+    {
+      id: Math.random(),
+      x: .4500,
+      y: .4980,
+      rotation: '0deg',
+      text: "1800"
+    },
+    {
+      id: Math.random(),
+      x: .8500,
+      y: .5160,
+      rotation: '0deg',
+      text: "1900"
+    }
+  ]
+
   const imageClickHandler = (e: any) => {
     const { x, y } = GetCoordinates(e);
     if (e.shiftKey) {
@@ -122,7 +139,7 @@ const MapComp: React.FC<Props> = (props) => {
         return <div
           key={label.id}
           style={{
-            fontSize: '0.8rem',
+            fontSize: zoom ? '1.2rem' : '0.8rem',
             fontWeight: 'bold',
             fontFamily: 'sans-serif',
             position: 'absolute',
@@ -131,6 +148,23 @@ const MapComp: React.FC<Props> = (props) => {
             transform: `translate(-50%, -50%) rotate(${label.rotation})`,
           }}
         >{label.text}</div>
+      })}
+      {blocks.map((block) => {
+        const top = block.y * height!;
+        const left = block.x * width! + ref.current?.offsetLeft;
+        return <div
+          key={block.id}
+          style={{
+            fontSize: zoom ? '1.2rem' : '0.8rem',
+            fontWeight: 'bold',
+            fontFamily: 'sans-serif',
+            position: 'absolute',
+            color: "green",
+            top,
+            left,
+            transform: `translate(-50%, -50%) rotate(${block.rotation})`,
+          }}
+        >{block.text}</div>
       })}
       <img
         style={{ maxHeight: "100%" }}
