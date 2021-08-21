@@ -1,83 +1,21 @@
 import { useEffect, useState } from "react";
 import map from "../assets/map.png";
 import { useResizeDetector } from 'react-resize-detector';
+import { Hyrdant } from "../models/hydrants";
+import { getCoordinates } from "../coordinates"
+import { DUMMY_STREETS } from "../models/streets"
+import { DUMMY_BLOCKS } from "../models/blocks"
 
 interface Props {}
-
-function FindPosition(oElement: any) {
-  if (typeof oElement.offsetParent != "undefined") {
-    for (var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent) {
-      posX += oElement.offsetLeft;
-      posY += oElement.offsetTop;
-    }
-    return [posX, posY];
-  } else {
-    return [oElement.x, oElement.y];
-  }
-}
-
-function GetCoordinates(e: any) {
-  var PosX = 0;
-  var PosY = 0;
-  var ImgPos;
-  ImgPos = FindPosition(e.target);
-  if (e.pageX || e.pageY) {
-    PosX = e.pageX;
-    PosY = e.pageY;
-  } else if (e.clientX || e.clientY) {
-    PosX =
-      e.clientX +
-      document.body.scrollLeft +
-      document.documentElement.scrollLeft;
-    PosY =
-      e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-  }
-  PosX = PosX - ImgPos[0];
-  PosY = PosY - ImgPos[1];
-  return { x: PosX, y: PosY };
-}
 
 const MapComp: React.FC<Props> = (props) => {
   const { width, height, ref } = useResizeDetector();
   const [zoom, setZoom] = useState(false);
   const [scroll, setScroll] = useState({ x: 0, y: 0 });
-  const [pins, setPins] = useState<{ id: number, x: number; y: number }[]>([]);
-  const labels = [
-    {
-      id: Math.random(),
-      x: .4888103,
-      y: .3369245,
-      rotation: '-35deg',
-      text: "Indian Hill Rd"
-    },
-    {
-      id: Math.random(),
-      x: .54000,
-      y: .4980,
-      rotation: '0deg',
-      text: 'Highfield Dr'
-    }
-  ]
-
-  const blocks = [
-    {
-      id: Math.random(),
-      x: .4500,
-      y: .4980,
-      rotation: '0deg',
-      text: "1800"
-    },
-    {
-      id: Math.random(),
-      x: .8500,
-      y: .5160,
-      rotation: '0deg',
-      text: "1900"
-    }
-  ]
+  const [pins, setPins] = useState<Hyrdant[]>([]);
 
   const imageClickHandler = (e: any) => {
-    const { x, y } = GetCoordinates(e);
+    const { x, y } = getCoordinates(e);
     if (e.shiftKey) {
       setPins((prev) => [
         ...prev,
@@ -132,7 +70,7 @@ const MapComp: React.FC<Props> = (props) => {
           ></div>
         );
       })}
-      {labels.map((label) => {
+      {DUMMY_STREETS.map((label) => {
         const top = label.y * height!;
         const left = label.x * width! + ref.current?.offsetLeft;
         return <div
@@ -148,7 +86,7 @@ const MapComp: React.FC<Props> = (props) => {
           }}
         >{label.text}</div>
       })}
-      {blocks.map((block) => {
+      {DUMMY_BLOCKS.map((block) => {
         const top = block.y * height!;
         const left = block.x * width! + ref.current?.offsetLeft;
         return <div
