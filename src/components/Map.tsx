@@ -41,6 +41,10 @@ const MapComp: React.FC<Props> = (props) => {
     }
   }
 
+  const blockClickHandler = (id: number) => {
+    console.log(id)
+  }
+
   useEffect(() => {
     window.scroll(scroll.x, scroll.y);
     window.addEventListener('resize', () => {})
@@ -100,7 +104,9 @@ const MapComp: React.FC<Props> = (props) => {
             top,
             left,
             transform: `translate(-50%, -50%) rotate(${block.rotation})`,
+            cursor: 'pointer'
           }}
+          onClick={blockClickHandler.bind(null, block.id)}
         >{block.text}</div>
       })}
       <img
