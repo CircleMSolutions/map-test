@@ -1,0 +1,35 @@
+.dialog {
+  width: 40%;
+  background-color: white;
+  border-radius: 1rem;
+  z-index: 15;
+}
+
+.dialog-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10;
+}
+
+.dialog-header {
+    height: 2rem;
+    padding: 0.5rem 1rem;
+}
+
+.dialog-body {
+    padding: 0.5rem 1rem;
+}
+
+.dialog-action {
+    display: flex;
+    justify-content: flex-end;
+    height: 2rem;
+    padding: 0.5rem 1rem;
+}
