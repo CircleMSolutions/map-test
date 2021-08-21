@@ -8,14 +8,14 @@ export interface Block {
 
 export const DUMMY_BLOCKS = [
     {
-      id: Math.random(),
+      id: 1,
       x: .4500,
       y: .4980,
       rotation: '0deg',
-      text: "1800"
+      text: "####"
     },
     {
-      id: Math.random(),
+      id: 2,
       x: .8500,
       y: .5160,
       rotation: '0deg',
