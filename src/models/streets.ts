@@ -12,13 +12,13 @@ export const DUMMY_STREETS = [
       x: .4888103,
       y: .3369245,
       rotation: '-35deg',
-      text: "Indian Hill Rd"
+      text: ""
     },
     {
       id: Math.random(),
       x: .54000,
       y: .4980,
       rotation: '0deg',
-      text: 'Highfield Dr'
+      text: ''
     }
   ]

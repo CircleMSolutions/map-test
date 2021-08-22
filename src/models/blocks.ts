@@ -12,13 +12,13 @@ export const DUMMY_BLOCKS = [
       x: .4500,
       y: .4980,
       rotation: '0deg',
-      text: "####"
+      text: ""
     },
     {
       id: 2,
       x: .8500,
       y: .5160,
       rotation: '0deg',
-      text: "1900"
+      text: ""
     }
   ]
