@@ -32,7 +32,7 @@ const Dialog: React.FC<Props> = (props) => {
             <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
             </div>
         <div className={styles["dialog-action"]}>
-          <button type="button" onClick={props.onCancel}>
+          <button style={{background: 'gray'}} type="button" onClick={props.onCancel}>
             Cancel
           </button>
           <button

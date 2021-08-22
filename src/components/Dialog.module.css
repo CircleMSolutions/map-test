@@ -50,4 +50,5 @@
     border: 1px solid rgb(10, 48, 105);
     color: white;
     background-color: rgb(12, 89, 189);
+    cursor: pointer;
 }
