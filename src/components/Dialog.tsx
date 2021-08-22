@@ -4,12 +4,15 @@ import styles from "./Dialog.module.css";
 
 interface Props {
   onCancel: () => void;
-  id?: number;
+  id: number;
   title?: string;
+  type: "block" | "street"
+  value: string;
+  onConfirm: (id: number, value: string) => void
 }
 
 const Dialog: React.FC<Props> = (props) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(props.value);
   const portal = document.getElementById("dialog-portal");
 
   if (!portal) return <></>;
@@ -34,9 +37,7 @@ const Dialog: React.FC<Props> = (props) => {
           </button>
           <button
             type="button"
-            onClick={() => {
-              console.log("sasd");
-            }}
+            onClick={() => props.onConfirm(props.id, value)}
           >
             Ok
           </button>

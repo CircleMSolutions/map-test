@@ -9,12 +9,19 @@ import Dialog from "./Dialog";
 
 interface Props {}
 
+export interface BlockDialogDetails {
+  id: number;
+  type: "block" | "street";
+  value: string
+}
+
 const MapComp: React.FC<Props> = (props) => {
   const { width, height, ref } = useResizeDetector();
   const [zoom, setZoom] = useState(false);
   const [scroll, setScroll] = useState({ x: 0, y: 0 });
   const [pins, setPins] = useState<Hyrdant[]>([]);
-  const [showDialog, setShowDialog] = useState<boolean>(false);
+  const [showDialog, setShowDialog] = useState<BlockDialogDetails | null>(null);
+  const [blocks, setBlocks] = useState(DUMMY_BLOCKS)
 
   const imageClickHandler = (e: any) => {
     const { x, y } = getCoordinates(e);
@@ -43,10 +50,20 @@ const MapComp: React.FC<Props> = (props) => {
     }
   };
 
-  const blockClickHandler = (id: number) => {
-
-    setShowDialog(true)
+  const blockClickHandler = (id: number, value: string) => {
+    setShowDialog({id, type: "block", value})
   };
+
+  const blockChangedHandler = (id: number, value: string) => {
+    const updated = blocks.map(block => {
+      if (block.id === id) {
+        return {...block, text: value}
+      }
+      return block
+    })
+    setBlocks(updated)
+    setShowDialog(null)
+  }
 
   useEffect(() => {
     window.scroll(scroll.x, scroll.y);
@@ -98,7 +115,7 @@ const MapComp: React.FC<Props> = (props) => {
             </div>
           );
         })}
-        {DUMMY_BLOCKS.map((block) => {
+        {blocks.map((block) => {
           const top = block.y * height!;
           const left = block.x * width! + ref.current?.offsetLeft;
           return (
@@ -115,7 +132,7 @@ const MapComp: React.FC<Props> = (props) => {
                 transform: `translate(-50%, -50%) rotate(${block.rotation})`,
                 cursor: "pointer",
               }}
-              onClick={blockClickHandler.bind(null, block.id)}
+              onClick={blockClickHandler.bind(null, block.id, block.text)}
             >
               {block.text}
             </div>
@@ -129,7 +146,7 @@ const MapComp: React.FC<Props> = (props) => {
           alt=""
         />
       </div>
-      {showDialog && <Dialog title="Enter Block" onCancel={() => setShowDialog(false)} />}
+      {showDialog?.type === "block" && <Dialog onConfirm={blockChangedHandler} value={showDialog.value} type={showDialog.type} id={showDialog.id} title="Enter Block" onCancel={() => setShowDialog(null)} />}
     </>
   );
 };
