@@ -44,6 +44,7 @@ const MapComp: React.FC<Props> = (props) => {
   };
 
   const blockClickHandler = (id: number) => {
+
     setShowDialog(true)
   };
 
@@ -128,7 +129,7 @@ const MapComp: React.FC<Props> = (props) => {
           alt=""
         />
       </div>
-      {showDialog && <Dialog onCancel={() => setShowDialog(false)} />}
+      {showDialog && <Dialog title="Enter Block" onCancel={() => setShowDialog(false)} />}
     </>
   );
 };

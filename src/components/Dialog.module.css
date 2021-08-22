@@ -1,8 +1,9 @@
 .dialog {
-  width: 40%;
+  width: 20rem;
   background-color: white;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   z-index: 15;
+  padding: 1.5rem;
 }
 
 .dialog-container {
@@ -20,16 +21,33 @@
 
 .dialog-header {
     height: 2rem;
-    padding: 0.5rem 1rem;
 }
 
 .dialog-body {
-    padding: 0.5rem 1rem;
+    padding: 1.5rem 0rem;
+}
+
+.dialog-body input {
+    width: 50%;
+    transform: translateX(50%);
+    height: 2rem;
+    border-radius: 0.3rem;
+    border: 1px solid black;
+    text-align: center;
 }
 
 .dialog-action {
     display: flex;
     justify-content: flex-end;
     height: 2rem;
-    padding: 0.5rem 1rem;
+}
+
+.dialog-action button {
+    width: 5rem;
+    margin-left: 1rem;
+    border-radius: 0.3rem;
+    font-weight: bold;
+    border: 1px solid rgb(10, 48, 105);
+    color: white;
+    background-color: rgb(12, 89, 189);
 }
