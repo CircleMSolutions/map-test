@@ -6,6 +6,9 @@ import { getCoordinates } from "../coordinates";
 import { DUMMY_STREETS } from "../models/streets";
 import { DUMMY_BLOCKS } from "../models/blocks";
 import Dialog from "./Dialog";
+import iconH from "../assets/008-h.svg"
+import iconB from "../assets/002-b.svg"
+import iconS from "../assets/019-s.svg"
 
 interface Props {}
 
@@ -22,6 +25,7 @@ const MapComp: React.FC<Props> = (props) => {
   const [pins, setPins] = useState<Hyrdant[]>([]);
   const [showDialog, setShowDialog] = useState<BlockDialogDetails | null>(null);
   const [blocks, setBlocks] = useState(DUMMY_BLOCKS)
+  const [streets, setStreets] = useState(DUMMY_STREETS)
 
   const imageClickHandler = (e: any) => {
     const { x, y } = getCoordinates(e);
@@ -54,6 +58,10 @@ const MapComp: React.FC<Props> = (props) => {
     setShowDialog({id, type: "block", value})
   };
 
+  const streetClickHandler = (id: number, value: string) => {
+    setShowDialog({id, type: "street", value})
+  }
+
   const blockChangedHandler = (id: number, value: string) => {
     const updated = blocks.map(block => {
       if (block.id === id) {
@@ -62,6 +70,17 @@ const MapComp: React.FC<Props> = (props) => {
       return block
     })
     setBlocks(updated)
+    setShowDialog(null)
+  }
+
+  const streetChangedHandler = (id: number, value: string) => {
+    const updated = streets.map(street => {
+      if (street.id === id) {
+        return {...street, text: value}
+      }
+      return street
+    })
+    setStreets(updated)
     setShowDialog(null)
   }
 
@@ -95,12 +114,12 @@ const MapComp: React.FC<Props> = (props) => {
             ></div>
           );
         })}
-        {DUMMY_STREETS.map((label) => {
-          const top = label.y * height!;
-          const left = label.x * width! + ref.current?.offsetLeft;
+        {streets.map((street) => {
+          const top = street.y * height!;
+          const left = street.x * width! + ref.current?.offsetLeft;
           return (
             <div
-              key={label.id}
+              key={street.id}
               style={{
                 fontSize: zoom ? "1.2rem" : "0.8rem",
                 fontWeight: "bold",
@@ -108,10 +127,12 @@ const MapComp: React.FC<Props> = (props) => {
                 position: "absolute",
                 top,
                 left,
-                transform: `translate(-50%, -50%) rotate(${label.rotation})`,
+                transform: `translate(-50%, -50%) rotate(${street.rotation})`,
+                cursor: "pointer",
               }}
+              onClick={streetClickHandler.bind(null, street.id, street.text)}
             >
-              {label.text}
+              {street.text === '' ? <img src={iconS} style={{height: '1.5rem'}} alt="street"/> : street.text}
             </div>
           );
         })}
@@ -134,7 +155,7 @@ const MapComp: React.FC<Props> = (props) => {
               }}
               onClick={blockClickHandler.bind(null, block.id, block.text)}
             >
-              {block.text}
+              {block.text === '' ? <img src={iconB} style={{height: '1.5rem'}} alt="street"/> : block.text}
             </div>
           );
         })}
@@ -147,6 +168,7 @@ const MapComp: React.FC<Props> = (props) => {
         />
       </div>
       {showDialog?.type === "block" && <Dialog onConfirm={blockChangedHandler} value={showDialog.value} type={showDialog.type} id={showDialog.id} title="Enter Block" onCancel={() => setShowDialog(null)} />}
+      {showDialog?.type === "street" && <Dialog onConfirm={streetChangedHandler} value={showDialog.value} type={showDialog.type} id={showDialog.id} title="Enter Steet" onCancel={() => setShowDialog(null)} />}
     </>
   );
 };
