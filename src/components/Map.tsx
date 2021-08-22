@@ -96,7 +96,6 @@ const MapComp: React.FC<Props> = (props) => {
         {pins.map((pin) => {
           const top = pin.y * height!;
           const left = pin.x * width! + ref.current?.offsetLeft;
-          console.log(pin.x, pin.y);
           return (
             <div
               key={pin.id}
@@ -105,13 +104,13 @@ const MapComp: React.FC<Props> = (props) => {
                 position: "absolute",
                 top,
                 left,
-                height: "14px",
-                width: "14px",
-                borderRadius: "7px",
+                height: "1rem",
+                width: "1rem",
+                borderRadius: "0.5rem",
                 background: "red",
-                transform: "translateX(-7px) translateY(-7px)",
+                transform: "translateX(-50%) translateY(-50%)",
               }}
-            ></div>
+            ><img style={{height: '1rem'}} src={iconH} alt="" /></div>
           );
         })}
         {streets.map((street) => {
