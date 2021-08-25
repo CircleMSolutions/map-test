@@ -18,6 +18,13 @@ export interface BlockDialogDetails {
   value: string
 }
 
+export interface Target {
+  id: number,
+  x: number,
+  y: number,
+  variance: number
+}
+
 const MapComp: React.FC<Props> = (props) => {
   const { width, height, ref } = useResizeDetector();
   const [zoom, setZoom] = useState(false);
@@ -26,6 +33,7 @@ const MapComp: React.FC<Props> = (props) => {
   const [showDialog, setShowDialog] = useState<BlockDialogDetails | null>(null);
   const [blocks, setBlocks] = useState(DUMMY_BLOCKS)
   const [streets, setStreets] = useState(DUMMY_STREETS)
+  const [targets, setTargets] = useState<Target[]>([])
 
   const imageClickHandler = (e: any) => {
     const { x, y } = getCoordinates(e);
@@ -38,6 +46,15 @@ const MapComp: React.FC<Props> = (props) => {
           y: y / height!,
         },
       ]);
+      setTargets((prev) => [
+        ...prev,
+        {
+          id: Math.random(),
+          x: x / width!,
+          y: y / height!,
+          variance: 0.05
+        }
+      ])
     }
     if (e.altKey) {
       scroll.x === 0
@@ -112,6 +129,24 @@ const MapComp: React.FC<Props> = (props) => {
               }}
             ><img style={{height: zoom ? '1.3rem' : '1rem'}} src={iconH} alt="" /></div>
           );
+        })}
+        {targets.map((target) => {
+          const top = target.y * height!;
+          const left = target.x * width! + ref.current?.offsetLeft;
+          return (
+            <div
+              key={target.id}
+              onClick={clearPinHandler.bind(null, target.id)}
+              style={{
+                position: "absolute",
+                top,
+                left,
+                height: target.variance * height!,
+                width: target.variance * width!,
+                border: '1px solid red',
+                transform: "translateX(-50%) translateY(-50%)",
+              }}
+            ></div>
           );
         })}
         {streets.map((street) => {
