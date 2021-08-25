@@ -10,6 +10,7 @@ import iconH from "../assets/008-h.svg";
 import iconB from "../assets/002-b.svg";
 import iconS from "../assets/019-s.svg";
 import Hydrant from "./Hydrant";
+import Street from "./Street";
 
 interface Props {}
 
@@ -148,26 +149,16 @@ const MapComp: React.FC<Props> = (props) => {
           const top = street.y * height!;
           const left = street.x * width! + ref.current?.offsetLeft;
           return (
-            <div
-              key={street.id}
-              style={{
-                fontSize: zoom ? "1.2rem" : "0.8rem",
-                fontWeight: "bold",
-                fontFamily: "sans-serif",
-                position: "absolute",
-                top,
-                left,
-                transform: `translate(-50%, -50%) rotate(${street.rotation})`,
-                cursor: "pointer",
-              }}
+            <Street
+              id={street.id}
+              top={top}
+              left={left}
+              rotation={street.rotation}
+              zoom={zoom}
+              icon={iconS}
               onClick={streetClickHandler.bind(null, street.id, street.text)}
-            >
-              {street.text === "" ? (
-                <img src={iconS} style={{ height: "1.5rem" }} alt="street" />
-              ) : (
-                street.text
-              )}
-            </div>
+              text={street.text}
+            />
           );
         })}
         {blocks.map((block) => {
