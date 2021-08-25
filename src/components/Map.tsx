@@ -9,7 +9,7 @@ import Dialog from "./Dialog";
 import iconH from "../assets/008-h.svg";
 import iconB from "../assets/002-b.svg";
 import iconS from "../assets/019-s.svg";
-import Hydrants from "./Hydrants";
+import Hydrant from "./Hydrant";
 
 interface Props {}
 
@@ -115,7 +115,7 @@ const MapComp: React.FC<Props> = (props) => {
           const top = pin.y * height!;
           const left = pin.x * width! + ref.current?.offsetLeft;
           return (
-            <Hydrants
+            <Hydrant
               id={pin.id}
               top={top}
               left={left}

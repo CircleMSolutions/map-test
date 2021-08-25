@@ -7,7 +7,7 @@ interface Props {
     onClick: any
 }
 
-const Hydrants: React.FC<Props> = (props) => {
+const Hydrant: React.FC<Props> = (props) => {
     return (
         <div
           key={props.id}
@@ -26,4 +26,4 @@ const Hydrants: React.FC<Props> = (props) => {
       )
 }
 
-export default Hydrants
+export default Hydrant
