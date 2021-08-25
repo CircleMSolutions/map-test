@@ -6,23 +6,24 @@ import { getCoordinates } from "../coordinates";
 import { DUMMY_STREETS } from "../models/streets";
 import { DUMMY_BLOCKS } from "../models/blocks";
 import Dialog from "./Dialog";
-import iconH from "../assets/008-h.svg"
-import iconB from "../assets/002-b.svg"
-import iconS from "../assets/019-s.svg"
+import iconH from "../assets/008-h.svg";
+import iconB from "../assets/002-b.svg";
+import iconS from "../assets/019-s.svg";
+import Hydrants from "./Hydrants";
 
 interface Props {}
 
 export interface BlockDialogDetails {
   id: number;
   type: "block" | "street";
-  value: string
+  value: string;
 }
 
 export interface Target {
-  id: number,
-  x: number,
-  y: number,
-  variance: number
+  id: number;
+  x: number;
+  y: number;
+  variance: number;
 }
 
 const MapComp: React.FC<Props> = (props) => {
@@ -31,9 +32,9 @@ const MapComp: React.FC<Props> = (props) => {
   const [scroll, setScroll] = useState({ x: 0, y: 0 });
   const [pins, setPins] = useState<Hyrdant[]>([]);
   const [showDialog, setShowDialog] = useState<BlockDialogDetails | null>(null);
-  const [blocks, setBlocks] = useState(DUMMY_BLOCKS)
-  const [streets, setStreets] = useState(DUMMY_STREETS)
-  const [targets, setTargets] = useState<Target[]>([])
+  const [blocks, setBlocks] = useState(DUMMY_BLOCKS);
+  const [streets, setStreets] = useState(DUMMY_STREETS);
+  const [targets, setTargets] = useState<Target[]>([]);
 
   const imageClickHandler = (e: any) => {
     const { x, y } = getCoordinates(e);
@@ -52,9 +53,9 @@ const MapComp: React.FC<Props> = (props) => {
           id: Math.random(),
           x: x / width!,
           y: y / height!,
-          variance: 0.05
-        }
-      ])
+          variance: 0.05,
+        },
+      ]);
     }
     if (e.altKey) {
       scroll.x === 0
@@ -72,34 +73,34 @@ const MapComp: React.FC<Props> = (props) => {
   };
 
   const blockClickHandler = (id: number, value: string) => {
-    setShowDialog({id, type: "block", value})
+    setShowDialog({ id, type: "block", value });
   };
 
   const streetClickHandler = (id: number, value: string) => {
-    setShowDialog({id, type: "street", value})
-  }
+    setShowDialog({ id, type: "street", value });
+  };
 
   const blockChangedHandler = (id: number, value: string) => {
-    const updated = blocks.map(block => {
+    const updated = blocks.map((block) => {
       if (block.id === id) {
-        return {...block, text: value}
+        return { ...block, text: value };
       }
-      return block
-    })
-    setBlocks(updated)
-    setShowDialog(null)
-  }
+      return block;
+    });
+    setBlocks(updated);
+    setShowDialog(null);
+  };
 
   const streetChangedHandler = (id: number, value: string) => {
-    const updated = streets.map(street => {
+    const updated = streets.map((street) => {
       if (street.id === id) {
-        return {...street, text: value}
+        return { ...street, text: value };
       }
-      return street
-    })
-    setStreets(updated)
-    setShowDialog(null)
-  }
+      return street;
+    });
+    setStreets(updated);
+    setShowDialog(null);
+  };
 
   useEffect(() => {
     window.scroll(scroll.x, scroll.y);
@@ -114,20 +115,14 @@ const MapComp: React.FC<Props> = (props) => {
           const top = pin.y * height!;
           const left = pin.x * width! + ref.current?.offsetLeft;
           return (
-            <div
-              key={pin.id}
+            <Hydrants
+              id={pin.id}
+              top={top}
+              left={left}
+              zoom={zoom}
+              icon={iconH}
               onClick={clearPinHandler.bind(null, pin.id)}
-              style={{
-                position: "absolute",
-                top,
-                left,
-                height: "1rem",
-                width: "1rem",
-                borderRadius: "0.5rem",
-                background: "red",
-                transform: "translateX(-50%) translateY(-50%)",
-              }}
-            ><img style={{height: zoom ? '1.3rem' : '1rem'}} src={iconH} alt="" /></div>
+            />
           );
         })}
         {targets.map((target) => {
@@ -143,7 +138,7 @@ const MapComp: React.FC<Props> = (props) => {
                 left,
                 height: target.variance * height!,
                 width: target.variance * width!,
-                border: '1px solid red',
+                border: "1px solid red",
                 transform: "translateX(-50%) translateY(-50%)",
               }}
             ></div>
@@ -167,7 +162,11 @@ const MapComp: React.FC<Props> = (props) => {
               }}
               onClick={streetClickHandler.bind(null, street.id, street.text)}
             >
-              {street.text === '' ? <img src={iconS} style={{height: '1.5rem'}} alt="street"/> : street.text}
+              {street.text === "" ? (
+                <img src={iconS} style={{ height: "1.5rem" }} alt="street" />
+              ) : (
+                street.text
+              )}
             </div>
           );
         })}
@@ -190,7 +189,11 @@ const MapComp: React.FC<Props> = (props) => {
               }}
               onClick={blockClickHandler.bind(null, block.id, block.text)}
             >
-              {block.text === '' ? <img src={iconB} style={{height: '1.5rem'}} alt="street"/> : block.text}
+              {block.text === "" ? (
+                <img src={iconB} style={{ height: "1.5rem" }} alt="street" />
+              ) : (
+                block.text
+              )}
             </div>
           );
         })}
@@ -202,8 +205,26 @@ const MapComp: React.FC<Props> = (props) => {
           alt=""
         />
       </div>
-      {showDialog?.type === "block" && <Dialog onConfirm={blockChangedHandler} value={showDialog.value} type={showDialog.type} id={showDialog.id} title="Enter Block" onCancel={() => setShowDialog(null)} />}
-      {showDialog?.type === "street" && <Dialog onConfirm={streetChangedHandler} value={showDialog.value} type={showDialog.type} id={showDialog.id} title="Enter Steet" onCancel={() => setShowDialog(null)} />}
+      {showDialog?.type === "block" && (
+        <Dialog
+          onConfirm={blockChangedHandler}
+          value={showDialog.value}
+          type={showDialog.type}
+          id={showDialog.id}
+          title="Enter Block"
+          onCancel={() => setShowDialog(null)}
+        />
+      )}
+      {showDialog?.type === "street" && (
+        <Dialog
+          onConfirm={streetChangedHandler}
+          value={showDialog.value}
+          type={showDialog.type}
+          id={showDialog.id}
+          title="Enter Steet"
+          onCancel={() => setShowDialog(null)}
+        />
+      )}
     </>
   );
 };
