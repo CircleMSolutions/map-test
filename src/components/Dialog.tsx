@@ -28,6 +28,7 @@ const Dialog: React.FC<Props> = (props) => {
         <div className={styles["dialog-header"]}>
           <h2>{props.title}</h2>
         </div>
+        <form onSubmit={props.onConfirm.bind(null, props.id, value)}>
         <div className={styles["dialog-body"]}>
             <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
             </div>
@@ -36,12 +37,13 @@ const Dialog: React.FC<Props> = (props) => {
             Cancel
           </button>
           <button
-            type="button"
-            onClick={() => props.onConfirm(props.id, value)}
+            type="submit"
+            onClick={() => props.onConfirm.bind(null, props.id, value)}
           >
             Ok
           </button>
         </div>
+        </form>
       </div>
     </div>,
     portal
