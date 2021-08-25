@@ -1,9 +1,10 @@
+import iconH from "../assets/008-h.svg";
+
 interface Props {
     id: number;
     top: number;
     left: number;
     zoom: boolean;
-    icon: string;
     onClick: any
 }
 
@@ -22,7 +23,7 @@ const Hydrant: React.FC<Props> = (props) => {
             background: "red",
             transform: "translateX(-50%) translateY(-50%)",
           }}
-        ><img style={{height: props.zoom ? '1.3rem' : '1rem'}} src={props.icon} alt="" /></div>
+        ><img style={{height: props.zoom ? '1.3rem' : '1rem'}} src={iconH} alt="" /></div>
       )
 }
 

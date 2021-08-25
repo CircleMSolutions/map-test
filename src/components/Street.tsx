@@ -1,3 +1,5 @@
+import iconS from "../assets/019-s.svg";
+
 interface Props {
     id: number;
     text: string;
@@ -5,7 +7,6 @@ interface Props {
     left: number;
     zoom: boolean;
     rotation: string;
-    icon: string;
     onClick: any;
 }
 
@@ -26,7 +27,7 @@ const Street: React.FC<Props> = (props) => {
           onClick={props.onClick}
         >
           {props.text === "" ? (
-            <img src={props.icon} style={{ height: "1.5rem" }} alt="street" />
+            <img src={iconS} style={{ height: "1.5rem" }} alt="street" />
           ) : (
             props.text
           )}

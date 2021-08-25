@@ -6,8 +6,6 @@ import { getCoordinates } from "../coordinates";
 import { DUMMY_STREETS } from "../models/streets";
 import { DUMMY_BLOCKS } from "../models/blocks";
 import Dialog from "./Dialog";
-import iconH from "../assets/008-h.svg";
-import iconS from "../assets/019-s.svg";
 import Hydrant from "./Hydrant";
 import Street from "./Street";
 import Block from "./Block";
@@ -121,7 +119,6 @@ const MapComp: React.FC<Props> = (props) => {
               top={top}
               left={left}
               zoom={zoom}
-              icon={iconH}
               onClick={clearPinHandler.bind(null, pin.id)}
             />
           );
@@ -155,7 +152,6 @@ const MapComp: React.FC<Props> = (props) => {
               left={left}
               rotation={street.rotation}
               zoom={zoom}
-              icon={iconS}
               onClick={streetClickHandler.bind(null, street.id, street.text)}
               text={street.text}
             />
