@@ -7,10 +7,10 @@ import { DUMMY_STREETS } from "../models/streets";
 import { DUMMY_BLOCKS } from "../models/blocks";
 import Dialog from "./Dialog";
 import iconH from "../assets/008-h.svg";
-import iconB from "../assets/002-b.svg";
 import iconS from "../assets/019-s.svg";
 import Hydrant from "./Hydrant";
 import Street from "./Street";
+import Block from "./Block";
 
 interface Props {}
 
@@ -165,28 +165,16 @@ const MapComp: React.FC<Props> = (props) => {
           const top = block.y * height!;
           const left = block.x * width! + ref.current?.offsetLeft;
           return (
-            <div
-              key={block.id}
-              style={{
-                fontSize: zoom ? "1.2rem" : "0.8rem",
-                fontWeight: "bold",
-                fontFamily: "sans-serif",
-                position: "absolute",
-                color: "green",
-                top,
-                left,
-                transform: `translate(-50%, -50%) rotate(${block.rotation})`,
-                cursor: "pointer",
-              }}
+            <Block
+              id={block.id}
+              text={block.text}
+              rotation={block.rotation}
+              top={top}
+              left={left}
+              zoom={zoom}
               onClick={blockClickHandler.bind(null, block.id, block.text)}
-            >
-              {block.text === "" ? (
-                <img src={iconB} style={{ height: "1.5rem" }} alt="street" />
-              ) : (
-                block.text
-              )}
-            </div>
-          );
+            />
+          )
         })}
         <img
           style={{ maxHeight: "100%" }}
