@@ -33,7 +33,7 @@ const MapComp: React.FC<Props> = (props) => {
   const [showDialog, setShowDialog] = useState<BlockDialogDetails | null>(null);
   const [blocks, setBlocks] = useState(DUMMY_BLOCKS);
   const [streets, setStreets] = useState(DUMMY_STREETS);
-  const [targets, setTargets] = useState<Target[]>([]);
+  // const [targets, setTargets] = useState<Target[]>([]);
 
   const imageClickHandler = (e: any) => {
     const { x, y } = getCoordinates(e);
@@ -46,15 +46,15 @@ const MapComp: React.FC<Props> = (props) => {
           y: y / height!,
         },
       ]);
-      setTargets((prev) => [
-        ...prev,
-        {
-          id: Math.random(),
-          x: x / width!,
-          y: y / height!,
-          variance: 0.05,
-        },
-      ]);
+      // setTargets((prev) => [
+      //   ...prev,
+      //   {
+      //     id: Math.random(),
+      //     x: x / width!,
+      //     y: y / height!,
+      //     variance: 0.05,
+      //   },
+      // ]);
     }
     if (e.altKey) {
       scroll.x === 0
@@ -123,7 +123,7 @@ const MapComp: React.FC<Props> = (props) => {
             />
           );
         })}
-        {targets.map((target) => {
+        {/* {targets.map((target) => {
           const top = target.y * height!;
           const left = target.x * width! + ref.current?.offsetLeft;
           return (
@@ -141,7 +141,7 @@ const MapComp: React.FC<Props> = (props) => {
               }}
             ></div>
           );
-        })}
+        })} */}
         {streets.map((street) => {
           const top = street.y * height!;
           const left = street.x * width! + ref.current?.offsetLeft;
