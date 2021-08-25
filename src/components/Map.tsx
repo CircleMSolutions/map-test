@@ -110,7 +110,8 @@ const MapComp: React.FC<Props> = (props) => {
                 background: "red",
                 transform: "translateX(-50%) translateY(-50%)",
               }}
-            ><img style={{height: '1rem'}} src={iconH} alt="" /></div>
+            ><img style={{height: zoom ? '1.3rem' : '1rem'}} src={iconH} alt="" /></div>
+          );
           );
         })}
         {streets.map((street) => {
